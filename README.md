@@ -1,75 +1,60 @@
-# Bundler
+# Example on how to use jsPDF inside HTMLGraphics
 
-Bundler to make developing code easier and scalable.
+![jsPDF in HTMLGraphics](https://github.com/ZuperZee/htmlgraphics-jspdf-example/blob/main/img/jspdf-in-htmlgraphics.png)
 
-## Table of contents
+## Steps to create the same example
 
-- [Bundler](#bundler)
-  - [Table of contents](#table-of-contents)
-  - [Contains](#contains)
-  - [Usage](#usage)
-  - [Dev site](#dev-site)
-  - [Eslint](#eslint)
+1. Copy the [htmlgraphics-html-bundler-template](https://github.com/gapitio/htmlgraphics-html-bundler-template)
 
-## Contains
+   - Either by clicking the "use this template button"
+   - or with the command
 
-- [rollup.js](https://rollupjs.org/)
-- [Prettier](https://prettier.io/)
-- [TypeScript](https://www.typescriptlang.org/)
-- [ESLint](https://eslint.org/)
-- Local development server to run the code live in the browser.
+   ```bash
+   npx degit https://github.com/gapitio/htmlgraphics-html-bundler-template htmlgraphics-jspdf-example
+   ```
 
-## Usage
+2. Install the [jspdf package](https://www.npmjs.com/package/jspdf) with the command
 
-First you have to install the required dependencies
+   ```bash
+   npm install jspdf
+   ```
 
-```bash
-npm install
-```
+3. Modify the `rollup.config.js` file as it needs the `inlineDynamicImports` enabled.
 
-Then you start the development script
+   Insert `inlineDynamicImports: true` to the output section for onInit.ts inside `rollup.config.js` on line 16.
 
-```bash
-npm run dev
-```
+4. Add the following code to `onInit.ts`
 
-Go to <http://localhost:5173>. Change some code in `./src/onInit.ts`, `./src/onRender.ts`, or `./src/design/html.html`, and the website will update.
+   ```js
+   import "./style.css";
+   import { jsPDF } from "jspdf";
 
-When the code is ready to be uploaded to Grafana, start the build script
+   function getFirstMetricValue() {
+     const valueField = data.series[0]?.fields[1];
+     if (valueField) {
+       const length = valueField.values.length;
+       return valueField.values.get(length - 1);
+     }
+     return "No data";
+   }
 
-```bash
-npm run build
-```
+   function createPdf() {
+     const doc = new jsPDF();
 
-Then go to `/dist` and copy the content of `panel-options.json` to the panels `Import/export` option.
+     doc.text("Hello from HTMLGraphics!", 10, 10);
+     doc.text(`First metric value: ${getFirstMetricValue()}`, 10, 20);
+     doc.save("htmlgraphics.pdf");
+   }
 
-## Dev site
+   const button = htmlNode.querySelector("button");
 
-`src/devSite` is a folder where most of the configuration for the dev website is.
+   if (button === null) {
+     throw new Error("Button doesn't exist");
+   }
 
-To add custom series go to `src/devSite/data.ts` and add createSeries() in series.
+   button.addEventListener("click", createPdf);
+   ```
 
-Window has been used to get global variables like data, customProperties, ETC.
+5. Run `npm run build`
 
-## Eslint
-
-It's recommended to use the current eslint config, but as it's strongly opinionated it might be _easier_ to use a less opinionated config.
-
-Replace the current .eslint.cjs with the below code.
-
-```ts
-module.exports = {
-  env: {
-    node: true,
-    browser: true,
-  },
-  extends: [
-    "eslint:recommended",
-    "plugin:@typescript-eslint/recommended",
-    "prettier",
-  ],
-  parser: "@typescript-eslint/parser",
-  plugins: ["@typescript-eslint"],
-  root: true,
-};
-```
+6. Copy the content from `dist/panel-options.json` to the HTMLGraphics panel inside Grafana.
