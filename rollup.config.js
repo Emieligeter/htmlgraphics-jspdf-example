@@ -13,6 +13,7 @@ export default [
       dir: OUT_DIR,
       format: "iife",
       sourcemap: false,
+      inlineDynamicImports: true, // This needs to be enabled!
     },
     plugins: [
       postcss({
