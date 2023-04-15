@@ -23,7 +23,7 @@
 
    Insert `inlineDynamicImports: true` to the output section for onInit.ts inside `rollup.config.js` on line 16.
 
-4. Add the following code to `onInit.ts`
+4. Add the following code to `src/onInit.ts`
 
    ```js
    import "./style.css";
@@ -55,6 +55,14 @@
    button.addEventListener("click", createPdf);
    ```
 
-5. Run `npm run build`
+5. Add the following code to `src/html.html`
 
-6. Copy the content from `dist/panel-options.json` to the HTMLGraphics panel inside Grafana.
+   ```html
+   <div>
+     <button>Download PDF</button>
+   </div>
+   ```
+
+6. Run `npm run build`
+
+7. Copy the content from `dist/panel-options.json` to the HTMLGraphics panel inside Grafana.
