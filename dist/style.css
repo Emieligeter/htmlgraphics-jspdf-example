@@ -1,0 +1,15 @@
+table {
+  width: 100%;
+  text-align: left;
+}
+* {
+  font-family: Open Sans;
+  font-size: small;
+}
+img {
+  width: 100px;
+  height: 100px;
+}
+h1 {
+  font-size: x-large;
+}

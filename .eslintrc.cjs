@@ -14,6 +14,7 @@ module.exports = {
     "consistent-return": "off",
     "import/no-extraneous-dependencies": "off",
     "import/prefer-default-export": "off", // https://basarat.gitbooks.io/typescript/docs/tips/defaultIsBad.html
+    "no-var": "off",
     "no-continue": "off",
     "no-dupe-else-if": "error",
     "no-param-reassign": ["error", { props: false }], // Disallow reassignment of function parameters
@@ -46,6 +47,8 @@ module.exports = {
     "unicorn/prefer-module": "off",
     "unicorn/prefer-node-protocol": "off",
     "unicorn/prevent-abbreviations": "off", // Common abbreviations are known and readable
+    "unicorn/no-for-loop": "off",
+    "unicorn/prefer-query-selector": "off",
   },
   overrides: [
     {
